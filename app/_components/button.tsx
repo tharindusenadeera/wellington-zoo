@@ -1,10 +1,14 @@
 interface IButton {
-  title: string;
+  title: string | undefined;
+  onClick: any;
 }
 
-export default function Button({ title }: IButton) {
+export default function Button({ title, onClick }: IButton) {
   return (
-    <button className="bg-white text-pink-600 font-semibold px-6 py-3 rounded-xl shadow-lg hover:bg-pink-100 transition">
+    <button
+      className="bg-teal-500 text-white font-semibold px-6 py-3 rounded-4xl shadow-lg hover:bg-teal-600 transition"
+      onClick={onClick}
+    >
       {title}
     </button>
   );
