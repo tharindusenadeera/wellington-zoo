@@ -5,6 +5,8 @@ import Button from './_components/button';
 import { useState } from 'react';
 import Image from 'next/image';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 const descriptionArr = [
   {
@@ -41,31 +43,57 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col">
       <Nav />
-      {count < 4 ? (
-        <div className="flex flex-1 justify-center items-center text-center">
-          <div className="bg-amber-700/60 xl:p-4 lg:p-4 md:p-4 sm: p-2 xs:p-2 h-3/4 w-5/6 bg-opacity-90">
-            {count < 4 ? (
-              <>
-                <Description
-                  title={`${descriptionArr[count].title}`}
-                  description={`${descriptionArr[count].description}`}
-                />
-                <Button title={`${count === 3 ? 'Try It' : 'Next'}`} onClick={handleButtonOnClick} />
-              </>
-            ) : (
-              <div className="flex">
-                Upload Here <Image src="/images/upload.png" alt="upload" width={10} height={10} />
+      {!uploading ? (
+        <>
+          {count < 4 ? (
+            <div className="flex flex-1 justify-center items-center text-center">
+              <div className="bg-amber-700/60 xl:p-4 lg:p-4 md:p-4 sm: p-2 xs:p-2 h-3/4 w-5/6 bg-opacity-90 relative">
+                <>
+                  <Description
+                    title={`${descriptionArr[count].title}`}
+                    description={`${descriptionArr[count].description}`}
+                  />
+                  <Button
+                    className="absolute left-1/2 -translate-x-1/2 bottom-5 w-40"
+                    title={`${count === 3 ? 'Try It' : 'Next'}`}
+                    onClick={handleButtonOnClick}
+                  />
+                </>
               </div>
-            )}
-          </div>
-        </div>
+            </div>
+          ) : (
+            <div className="flex flex-1 justify-center items-center text-center">
+              <div className="flex items-center bg-white backdrop-invert backdrop-opacity-10 w-48 p-4 text-black">
+                <div className="mr-5">Upload Here</div> <AiOutlineCloudUpload size={30} onClick={handleUpload} />
+              </div>
+            </div>
+          )}
+        </>
       ) : (
-        <div className="flex flex-1 justify-center items-center text-center">
-          <div className="flex items-center bg-white/20 backdrop-invert backdrop-opacity-10 w-48 p-4">
-            <div className="mr-2">Upload Here</div>{' '}
-            <AiOutlineCloudUpload width={50} height={50} onClick={handleUpload} />
+        <>
+          <div className="flex flex-1 justify-center items-center text-center">
+            <div style={{ width: 80, height: 80 }} className="mb-20">
+              <CircularProgressbar
+                value={66}
+                styles={buildStyles({
+                  rotation: 0.25,
+                  pathTransitionDuration: 0.5,
+                  pathColor: `rgba(62, 152, 199, ${66 / 100})`,
+                  trailColor: '#d6d6d6',
+                  backgroundColor: '#3e98c7',
+                })}
+              />
+              <div className="flex justify-center items-center bg-white backdrop-invert backdrop-opacity-10 w-48 mt-2.5 p-4 -ml-14 text-black">
+                Uploading ...
+              </div>
+            </div>
           </div>
-        </div>
+          {/* <div className="flex flex-1 justify-center items-center text-center">
+            <div className="flex items-center bg-white/20 backdrop-invert backdrop-opacity-10 w-48 p-4">
+              Uploading ...
+            </div>
+          </div> */}
+        </>
       )}
     </div>
   );

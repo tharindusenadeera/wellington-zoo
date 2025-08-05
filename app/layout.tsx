@@ -14,6 +14,8 @@ const geistMono = Geist_Mono({
 
 const ubuntu = Ubuntu({
   weight: '400',
+  subsets: ['latin'],
+  variable: '--font-ubuntu',
 });
 
 export const metadata: Metadata = {
